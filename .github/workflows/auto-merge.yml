@@ -17,8 +17,8 @@ jobs:
       # Setup Git for merging
       - name: Setup Git
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "Prakash"
+          git config user.email "ptank@webtual.com"
 
       # Merge the development branch into the production branch
       - name: Merge to Production
