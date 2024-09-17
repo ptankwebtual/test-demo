@@ -32,8 +32,8 @@ jobs:
 
       # Pull latest changes from the development branch into production with --allow-unrelated-histories
       - name: Git pull from development branch
-        run: git pull origin development --ff-only
+        run: git merge development --no-ff --no-edit
 
       # Push the updated production branch back to the repository
-      - name: Push changes to production
-        run: git push origin production
+      # - name: Push changes to production
+      #  run: git push origin production
