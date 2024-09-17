@@ -30,9 +30,9 @@ jobs:
         run: |
           git checkout production || git checkout -b production
 
-      # Pull latest changes from the development branch into production
+      # Pull latest changes from the development branch into production with --allow-unrelated-histories
       - name: Merge development into production
-        run: git merge origin/development --no-ff --no-edit
+        run: git merge origin/development --no-ff --no-edit --allow-unrelated-histories
 
       # Push the updated production branch back to the repository
       - name: Push changes to production
