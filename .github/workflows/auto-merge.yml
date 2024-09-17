@@ -1,48 +1,39 @@
-name: Auto Merge Development to Production
+name: Sync Development to Production
 
+# Trigger this action on push to the 'development' branch
 on:
   push:
     branches:
       - development
 
 jobs:
-  auto-merge:
+  sync:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the code from the repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Setup Git
+      # Set up Git credentials for the action
+      - name: Set up Git user
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # Fetch all branches to ensure we know about the remote 'production' branch
+      # Fetch all branches to ensure 'production' is available
       - name: Fetch all branches
         run: git fetch --all
 
-      # Check if 'production' branch exists on remote and handle it accordingly
-      - name: Checkout production branch (create if not exists)
+      # Checkout the production branch
+      - name: Checkout production branch
         run: |
-          if git show-ref --verify --quiet refs/remotes/origin/production; then
-            git checkout production
-            git pull origin production
-          else
-            git checkout -b production
-            git push origin production
-          fi
+          git checkout production || git checkout -b production
 
-      # Merge 'development' into 'production' with --allow-unrelated-histories flag
+      # Pull latest changes from the development branch into production
       - name: Merge development into production
-        run: |
-          git checkout production
-          git merge development --no-ff --allow-unrelated-histories
+        run: git merge origin/development --no-ff --no-edit
 
-      # Push the updated production branch to the remote repository
-      - name: Push to production
+      # Push the updated production branch back to the repository
+      - name: Push changes to production
         run: git push origin production
-
-      - name: Notify Success
-        if: ${{ success() }}
-        run: echo "Successfully merged development into production!"
