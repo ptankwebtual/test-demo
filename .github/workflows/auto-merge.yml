@@ -32,7 +32,7 @@ jobs:
 
       # Pull latest changes from the development branch into production with --allow-unrelated-histories
       - name: Git pull from development branch
-        run: git pull origin development
+        run: git pull origin development --ff-only
 
       # Push the updated production branch back to the repository
       - name: Push changes to production
