@@ -33,11 +33,11 @@ jobs:
             git push origin production
           fi
 
-      # Merge 'development' into 'production'
+      # Merge 'development' into 'production' with --allow-unrelated-histories flag
       - name: Merge development into production
         run: |
           git checkout production
-          git merge development --no-ff
+          git merge development --no-ff --allow-unrelated-histories
 
       # Push the updated production branch to the remote repository
       - name: Push to production
