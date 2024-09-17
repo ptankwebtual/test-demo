@@ -3,35 +3,31 @@ name: Auto Merge Development to Production
 on:
   push:
     branches:
-      - development
+      - development  # This triggers the workflow when a push occurs on the 'development' branch
 
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      # Setup Git for merging
       - name: Setup Git
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "Prakash"
+          git config user.email "ptank@webtual.com"
 
-      - name: Create production branch if it doesn't exist
+      # Merge the development branch into the production branch
+      - name: Merge to Production
         run: |
-          if ! git rev-parse --verify origin/production; then
-            git checkout -b production
-            git push origin production
-          else
-            git checkout production
-          fi
-
-      - name: Merge development into production
-        run: |
+          git checkout production
           git merge development --no-ff
           git push origin production
 
+      # Optional: Notify on success
       - name: Notify Success
         if: ${{ success() }}
         run: echo "Successfully merged development into production!"
